@@ -14,9 +14,20 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const handleNextAnecdote = () => {
+    // Generate a random index within the range of the `anecdotes` array
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+  
+    // Update the `selected` state with the random index
+    setSelected(randomIndex);
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+      <div>
+      <button onClick={handleNextAnecdote}>next anecdote</button>
+      </div>
     </div>
   )
 }
