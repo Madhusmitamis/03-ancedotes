@@ -11,8 +11,12 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+
+  let aryVotes = new Uint8Array(anecdotes.length); 
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes]= useState(aryVotes)
+  const [mostVotedIndex, setMostVotedIndex] = useState(0)
 
   const handleNextAnecdote = () => {
     // Generate a random index within the range of the `anecdotes` array
@@ -21,11 +25,29 @@ const App = () => {
     // Update the `selected` state with the random index
     setSelected(randomIndex);
   }
+  const handleVotes = () => {
+    let maxVotes = 0;
+    const updatedVotes = [...votes];
+    updatedVotes[selected] += 1;
 
+    for (let i = 0; i < updatedVotes.length; i++) {
+      if (updatedVotes[i] > maxVotes) {
+          maxVotes = updatedVotes[i];
+          setMostVotedIndex(i); // Update the state with the index of the most voted anecdote
+      }
+  }
+
+  // Update the 'votes' state with the updated vote counts
+  setVotes(updatedVotes);
+}
+
+ 
   return (
     <div>
       {anecdotes[selected]}
+      <div>has {votes[selected]} votes</div>
       <div>
+      <button onClick={handleVotes}>vote</button>
       <button onClick={handleNextAnecdote}>next anecdote</button>
       </div>
     </div>
